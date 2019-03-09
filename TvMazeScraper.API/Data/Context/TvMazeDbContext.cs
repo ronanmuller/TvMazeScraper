@@ -18,7 +18,7 @@ namespace TvMazeScraper.API.Data.Context
 
         public DbSet<Show> Shows { get; set; }
         public DbSet<Cast> Casts { get; set; }
-        public DbSet<CastShow> CastShow { get; set; }
+        public DbSet<CastShow> CastsShows { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

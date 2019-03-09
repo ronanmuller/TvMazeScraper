@@ -44,7 +44,7 @@ namespace TvMazeScraper.API.Migrations
 
                     b.HasIndex("ShowId");
 
-                    b.ToTable("CastShow");
+                    b.ToTable("CastsShows");
                 });
 
             modelBuilder.Entity("TvMazeScraper.API.Models.Show", b =>

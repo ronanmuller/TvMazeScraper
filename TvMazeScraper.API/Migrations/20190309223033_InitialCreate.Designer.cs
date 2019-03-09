@@ -10,7 +10,7 @@ using TvMazeScraper.API.Data.Context;
 namespace TvMazeScraper.API.Migrations
 {
     [DbContext(typeof(TvMazeDbContext))]
-    [Migration("20190309190444_InitialCreate")]
+    [Migration("20190309223033_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -46,7 +46,7 @@ namespace TvMazeScraper.API.Migrations
 
                     b.HasIndex("ShowId");
 
-                    b.ToTable("CastShow");
+                    b.ToTable("CastsShows");
                 });
 
             modelBuilder.Entity("TvMazeScraper.API.Models.Show", b =>
