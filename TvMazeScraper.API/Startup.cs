@@ -12,6 +12,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using TvMazeScraper.API.Data.Context;
+using TvMazeScraper.API.Data.Interfaces;
+using TvMazeScraper.API.Data.Providers;
+using TvMazeScraper.API.Data.Storager;
 
 namespace TvMazeScraper.API
 {
@@ -32,7 +35,8 @@ namespace TvMazeScraper.API
 
             //DI
             services.AddDbContext<TvMazeDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            //services.AddScoped<TvMazeDbContext>(f => new TvMazeDbContext());
+            services.AddScoped<ICastShowProvider, CastShowProvider>();
+            services.AddScoped<ICastShowStorager, CastShowStorager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

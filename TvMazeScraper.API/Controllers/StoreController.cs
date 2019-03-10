@@ -17,18 +17,25 @@ namespace TvMazeScraper.API.Controllers
     public class StoreController : ControllerBase
     {
         private readonly ICastShowStorager _storager;
-
         public StoreController(ICastShowStorager storager)
         {
             this._storager = storager;
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public async Task Put(int id)
+        [HttpGet("{id}/save")]
+        public async Task<ActionResult<string>> StoreCastShow(int id)
         {
-            await _storager.StoreCastShow(id);
+          var res =  await _storager.StoreCastShow(id);
 
+          return res;
+        }
+
+        [HttpGet("{id}/update")]
+        public async Task<ActionResult<string>> UpdateCastShow(int id)
+        {
+            var res = await _storager.UpdateCastShow(id);
+
+            return res;
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TvMazeScraper.API.Migrations
 {
@@ -12,10 +10,9 @@ namespace TvMazeScraper.API.Migrations
                 name: "Casts",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: true),
-                    DateOfBirthday = table.Column<DateTime>(nullable: false)
+                    Birthday = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -26,8 +23,7 @@ namespace TvMazeScraper.API.Migrations
                 name: "Shows",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -36,7 +32,7 @@ namespace TvMazeScraper.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CastsShows",
+                name: "CastShows",
                 columns: table => new
                 {
                     CastId = table.Column<int>(nullable: false),
@@ -44,15 +40,15 @@ namespace TvMazeScraper.API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CastsShows", x => new { x.CastId, x.ShowId });
+                    table.PrimaryKey("PK_CastShows", x => new { x.CastId, x.ShowId });
                     table.ForeignKey(
-                        name: "FK_CastsShows_Casts_CastId",
+                        name: "FK_CastShows_Casts_CastId",
                         column: x => x.CastId,
                         principalTable: "Casts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CastsShows_Shows_ShowId",
+                        name: "FK_CastShows_Shows_ShowId",
                         column: x => x.ShowId,
                         principalTable: "Shows",
                         principalColumn: "Id",
@@ -60,15 +56,15 @@ namespace TvMazeScraper.API.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_CastsShows_ShowId",
-                table: "CastsShows",
+                name: "IX_CastShows_ShowId",
+                table: "CastShows",
                 column: "ShowId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CastsShows");
+                name: "CastShows");
 
             migrationBuilder.DropTable(
                 name: "Casts");

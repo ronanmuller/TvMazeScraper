@@ -9,6 +9,7 @@ namespace TvMazeScraper.API.Data.Interfaces
 {
     public interface ICastShowStorager
     {
-        Task StoreCastShow(int idShow);
+        Task<string> StoreCastShow(int idShow);
+        Task<string> UpdateCastShow(int id);
     }
 }

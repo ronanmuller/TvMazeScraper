@@ -12,7 +12,7 @@ using TvMazeScraper.API.Models;
 
 namespace TvMazeScraper.API.Data.Storager
 {
- 
+
     public class CastShowStorager : ICastShowStorager
     {
         private readonly TvMazeDbContext _context;
@@ -21,19 +21,71 @@ namespace TvMazeScraper.API.Data.Storager
         {
             _context = context;
         }
-        public async Task StoreCastShow(int idShow)
+        public async Task<string> StoreCastShow(int idShow)
         {
-            // Get show from database using idShow
-            // if show == null => store show using httpProvider
+            try
+            {
+                // Get show from database using idShow
+                var show = await _context.Shows.FindAsync(idShow);
 
-            // for each Cast in Http provider
-               // get cast from database
-               // if cast == null => store cast
+                // if show == null => store new show using httpProvider
+                if (show == null)
+                {
+                    using (var transaction = _context.Database.BeginTransaction())
+                    {
 
-            // get ShowCast from database using showId and castId
-               // if showcast == null => store showcast
-               // if showcast == null => store showcast
+                        CastShowPublicResponse response = await CastShowHttpProvider.GetPublicShowCast(idShow);
 
+                        if (response != null)
+                        {
+                            var newShow = new Show()
+                            {
+                                Id = response.Id,
+                                Name = response.Name
+                            };
+
+                            foreach (var auxCast in response._embedded.cast)
+                            {
+                                var newCast = new Cast()
+                                {
+                                    Id = auxCast.person.Id,
+                                    Name = auxCast.person.Name,
+                                    Birthday = auxCast.person.Birthday
+                                };
+
+                                await _context.AddRangeAsync(new CastShow { Cast = newCast, Show = newShow });
+                            }
+
+                            await _context.SaveChangesAsync();
+
+                            // Commit transaction if all commands succeed, transaction will auto-rollback
+                            // when disposed if either commands fails
+                            transaction.Commit();
+                        }
+                        else
+                            return "Show not found";
+
+                    }
+
+                }
+                else
+                    return "Show is already stored. Try update";
+
+            }
+            catch
+            {
+                return "Error";
+            }
+
+
+            return "Success";
+
+        }
+
+        public async Task<string> UpdateCastShow(int id)
+        {
+            //TODO
+            throw new NotImplementedException();
         }
     }
 }

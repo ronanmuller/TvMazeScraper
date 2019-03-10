@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,20 +9,26 @@ using TvMazeScraper.API.Models;
 
 namespace TvMazeScraper.API.Data.Providers
 {
-    public class ShowCastProvider : ICastShowProvider
+    public class CastShowProvider : ICastShowProvider
     {
         private readonly TvMazeDbContext _context;
 
-        public ShowCastProvider(TvMazeDbContext context)
+        public CastShowProvider(TvMazeDbContext tvMazeDbContext)
         {
-            _context = context;
+            this._context = tvMazeDbContext;
         }
 
-        public async Task<CastShowResponse> GetCastShow(int showId)
-        {          
-            // get from database, format like CastShowResponse and return
+        public async Task<CastShowPrivateResponse> GetCastShow(int showId)
+        {
+          
+           var objectList = await _context.Shows.Where(c => c.Id == showId).Select(o => new CastShowPrivateResponse
+           {
+                id = o.Id,
+                name= o.Name,
+                cast = o.Casts.Select(ot => ot.Cast).OrderByDescending(ot => ot.Birthday).ToList()
+            }).FirstOrDefaultAsync();
 
-            return null;
+            return objectList;
         }
     }
 }

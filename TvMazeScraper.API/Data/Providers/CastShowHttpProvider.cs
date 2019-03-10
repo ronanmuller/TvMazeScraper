@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,15 +15,20 @@ namespace TvMazeScraper.API.Data.Providers
         const string ShowEndpoint = "http://api.tvmaze.com/shows";
         static HttpClient client = new HttpClient();
 
-        public static async Task<string> GetShowCast(int id)
+        public static async Task<CastShowPublicResponse> GetPublicShowCast(int id)
         {
-            string res = "";
-            HttpResponseMessage response = await client.GetAsync(ShowEndpoint + id + "?embed=cast");
+            CastShowPublicResponse model = null;
+            string connection = string.Format("{0}{1}{2}", ShowEndpoint, "/" + id, "?embed=cast");
+            HttpResponseMessage response = await client.GetAsync(connection);
             if (response.IsSuccessStatusCode)
             {
-                res = await response.Content.ReadAsAsync<string>();
+                var res = await response.Content.ReadAsStringAsync();
+                 model = JsonConvert.DeserializeObject<CastShowPublicResponse>(res);
             }
-            return res;
+            else
+                return null;
+
+            return model;
         }
     }
 }
