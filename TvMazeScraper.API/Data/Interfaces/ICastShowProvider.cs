@@ -8,6 +8,6 @@ namespace TvMazeScraper.API.Data.Interfaces
 {
     public interface ICastShowProvider
     {
-        Task<CastShowPrivateResponse> GetCastShow(int showId);
+        Task<PaginatedList<CastShowPrivateResponse>> GetCastShow(int numPage, int numItems);
     }
 }

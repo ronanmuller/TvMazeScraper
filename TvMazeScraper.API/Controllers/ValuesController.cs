@@ -23,11 +23,12 @@ namespace TvMazeScraper.API.Controllers
             return "working";
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<CastShowPrivateResponse>> Get(int id)
+        // GET api/values/1/5
+        [HttpGet("{page}/{pageSize}")]
+        public async Task<ActionResult<PaginatedList<CastShowPrivateResponse>>> Get(int page, int pageSize)
         {
-            var res = await _provider.GetCastShow(id);
+
+            var res = await _provider.GetCastShow(page, pageSize );
 
             if (res == null)
                 return NotFound();

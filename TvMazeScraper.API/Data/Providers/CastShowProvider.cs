@@ -18,17 +18,18 @@ namespace TvMazeScraper.API.Data.Providers
             this._context = tvMazeDbContext;
         }
 
-        public async Task<CastShowPrivateResponse> GetCastShow(int showId)
-        {
-          
-           var objectList = await _context.Shows.Where(c => c.Id == showId).Select(o => new CastShowPrivateResponse
-           {
+        public async Task<PaginatedList<CastShowPrivateResponse>> GetCastShow(int numPage, int numItems)
+        {     
+            var list = _context.Shows.Select(o => new CastShowPrivateResponse
+            {
                 id = o.Id,
-                name= o.Name,
-                cast = o.Casts.Select(ot => ot.Cast).OrderByDescending(ot => ot.Birthday).ToList()
-            }).FirstOrDefaultAsync();
+                name = o.Name,
+                cast =  o.Casts.Select(ot => ot.Cast).OrderByDescending(ot => ot.Birthday).ToList()
+            });
 
-            return objectList;
+            var paginationModel = await PaginatedList<CastShowPrivateResponse>.CreateAsync(list, numPage, numItems );
+
+            return paginationModel;
         }
     }
 }

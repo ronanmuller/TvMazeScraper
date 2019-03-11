@@ -52,6 +52,11 @@ namespace TvMazeScraper.API
             }
 
             app.UseHttpsRedirection();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute("default", "{controller=Values}/{action=Get}/{page?}/{pageSize?}");
+            });
+
             app.UseMvc();
         }
     }
