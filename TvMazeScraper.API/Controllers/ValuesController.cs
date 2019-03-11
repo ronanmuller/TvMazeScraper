@@ -20,7 +20,7 @@ namespace TvMazeScraper.API.Controllers
         [HttpGet]
         public async Task<ActionResult<string>> Get()
         {          
-            return "working";
+            return "working - Please read README.txt to set the API.";
         }
 
         // GET api/values/1/5
