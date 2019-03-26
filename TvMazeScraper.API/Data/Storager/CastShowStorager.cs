@@ -28,6 +28,8 @@ namespace TvMazeScraper.API.Data.Storager
                 // Get show from database using idShow
                 var show = await _context.Shows.FindAsync(idShow);
 
+                List<CastShow> listNewCastShow = new List<CastShow>();
+
                 // if show == null => store new show using httpProvider
                 if (show == null)
                 {
@@ -53,7 +55,13 @@ namespace TvMazeScraper.API.Data.Storager
                                     Birthday = auxCast.person.Birthday
                                 };
 
-                                await _context.AddRangeAsync(new CastShow { Cast = newCast, Show = newShow });
+                                var storedCastShow = listNewCastShow.Find(x => x.CastId == auxCast.person.Id && x.ShowId == response.Id);
+                                if (storedCastShow == null)
+                                {
+                                    var castShow = new CastShow { Cast = newCast, Show = newShow };
+                                    await _context.AddRangeAsync(castShow);
+                                    listNewCastShow.Add(castShow);
+                                }
                             }
 
                             await _context.SaveChangesAsync();
@@ -72,7 +80,7 @@ namespace TvMazeScraper.API.Data.Storager
                     return "Show is already stored. Try update";
 
             }
-            catch
+            catch (Exception ex)
             {
                 return "Error";
             }

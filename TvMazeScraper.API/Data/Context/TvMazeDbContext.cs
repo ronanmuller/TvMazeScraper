@@ -13,7 +13,7 @@ namespace TvMazeScraper.API.Data.Context
         public TvMazeDbContext(DbContextOptions options)
         : base(options)
         {
-
+            
         }
 
         public DbSet<Show> Shows { get; set; }

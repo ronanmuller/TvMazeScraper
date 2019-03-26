@@ -15,25 +15,25 @@ namespace TvMazeScraper.API.Controllers
         public ValuesController(ICastShowProvider provider)
         {
             this._provider = provider;
-        }
-
-        [HttpGet]
-        public async Task<ActionResult<string>> Get()
-        {          
-            return "working - Please read README.txt to set the API.";
-        }
+        }     
 
         // GET api/values/1/5
+        /// <summary>
+        /// Get a paginated list of Shows and respectives cast
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
         [HttpGet("{page}/{pageSize}")]
         public async Task<ActionResult<PaginatedList<CastShowPrivateResponse>>> Get(int page, int pageSize)
         {
 
-            var res = await _provider.GetCastShow(page, pageSize );
+            var res = await _provider.GetCastShow(page, pageSize);
 
             if (res == null)
                 return NotFound();
 
             return res;
-        }      
+        }
     }
 }

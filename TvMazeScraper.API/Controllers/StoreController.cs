@@ -22,15 +22,25 @@ namespace TvMazeScraper.API.Controllers
             this._storager = storager;
         }
 
-        [HttpGet("{id}/save")]
+        /// <summary>
+        /// Insert a new Show and Casts
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPut("{id}/save")]
         public async Task<ActionResult<string>> StoreCastShow(int id)
         {
-          var res =  await _storager.StoreCastShow(id);
+            var res = await _storager.StoreCastShow(id);
 
-          return res;
+            return res;
         }
 
-        [HttpGet("{id}/update")]
+        /// <summary>
+        /// Update a previous stored Cast Show
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPut("{id}/update")]
         public async Task<ActionResult<string>> UpdateCastShow(int id)
         {
             var res = await _storager.UpdateCastShow(id);

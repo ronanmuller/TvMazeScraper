@@ -6,15 +6,20 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using TvMazeScraper.API.Data.Context;
 
 namespace TvMazeScraper.API
 {
     public class Program
     {
+        protected Program() { }
         public static void Main(string[] args)
         {
             CreateWebHostBuilder(args).Build().Run();
+
+          
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
